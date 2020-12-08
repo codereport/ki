@@ -1,3 +1,4 @@
+// https://www.godbolt.org/z/73E4G3
 
 #include <vector>
 #include <numeric>
@@ -81,6 +82,16 @@ auto operator|(Range r, take_proxy proxy) -> Range {
     return r;
 }
 
+// DROP
+struct drop_proxy { int n; };
+auto drop(int n) { return drop_proxy{n}; }
+
+template <typename Range>
+auto operator|(Range r, drop_proxy proxy) -> Range {
+    r.erase(r.begin(), r.begin() + proxy.n);
+    return r;
+}
+
 }
 
 auto main() -> int {
@@ -93,7 +104,8 @@ auto main() -> int {
           | ki::fold(0, std::plus{})
           | ki::iota()
           | ki::reverse()
-          | ki::take(5)
+          | ki::drop(4)
+          | ki::take(2)
           | ki::fold(1, std::multiplies{});
 
     // fmt::print("[{}]\n", fmt::join(result, ","));
