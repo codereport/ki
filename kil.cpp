@@ -1,4 +1,3 @@
-// https://www.godbolt.org/z/34Tqxe
 
 #include <vector>
 #include <numeric>
@@ -6,6 +5,8 @@
 
 #include <fmt/core.h>
 #include <fmt/format.h>
+
+namespace ki {
 
 // FILTER
 template <typename Pred>
@@ -80,18 +81,20 @@ auto operator|(Range r, take_proxy proxy) -> Range {
     return r;
 }
 
+}
+
 auto main() -> int {
 
     auto v = std::vector{1, 2, 3, 4, 5};
 
     auto const result = 
-        v | filter([](auto e) { return e % 2 == 0; }) 
-          | map([](auto e) { return e + 1; }) 
-          | fold(0, std::plus{})
-          | iota()
-          | reverse()
-          | take(5)
-          | fold(1, std::multiplies{});
+        v | ki::filter([](auto e) { return e % 2 == 0; }) 
+          | ki::map([](auto e) { return e + 1; }) 
+          | ki::fold(0, std::plus{})
+          | ki::iota()
+          | ki::reverse()
+          | ki::take(5)
+          | ki::fold(1, std::multiplies{});
 
     // fmt::print("[{}]\n", fmt::join(result, ","));
     fmt::print("{}\n", result);
