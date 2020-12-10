@@ -1,4 +1,4 @@
-// https://www.godbolt.org/z/73E4G3
+// https://www.godbolt.org/z/djz3YG
 
 #include <vector>
 #include <numeric>
